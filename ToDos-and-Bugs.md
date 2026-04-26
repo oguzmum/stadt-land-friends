@@ -17,7 +17,7 @@
 - [x] Highlight duplicate answers during voting so players can spot them easily
 - [ ] Show how many players have already submitted during an active round (e.g. "2 / 4 done")
 - [x] Notify all players when someone hits "Done" early (currently only the timer changes)
-- [ ] Animation when the letter is being chosen.. don't just let it pop up
+- [x] Animation when the letter is being chosen.. don't just let it pop up
 - [x] While skipping through the answers, display a information how much points each player will get
   - 5 for duplicates, 10 for unique (maybe later 20 for upvoted by every other player)
 - [x] Ability to just close the current game and start a new one (return to homepage at any time)
@@ -30,6 +30,7 @@
 ### Admin
 - [ ] Let the admin kick players from the lobby
 - [ ] Let the admin change settings between rounds without restarting the whole game
+- [ ] Ability to skip a letter (e.g. Y or Z ..)
 
 ### Technical
 - [x] Reconnect handling — rejoin the active game automatically after phone wakes up or briefly loses connection

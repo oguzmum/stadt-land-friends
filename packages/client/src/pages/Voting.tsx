@@ -54,6 +54,14 @@ export function Voting() {
     answer: pa.answers[cat?.id] ?? '',
   }));
 
+  const duplicatePlayerIds = new Set<string>();
+  const validAnswers = allAnswers.filter(e => e.answer.trim() && isAnswerValid(e.answer, gameState.letter ?? ''));
+  for (const entry of validAnswers) {
+    if (validAnswers.some(e => e.playerId !== entry.playerId && answersMatch(e.answer, entry.answer))) {
+      duplicatePlayerIds.add(entry.playerId);
+    }
+  }
+
   const handleVote = (targetPlayerId: string, accepted: boolean) => {
     if (!cat) return;
     submitVote(targetPlayerId, cat.id, accepted);
@@ -90,8 +98,9 @@ export function Voting() {
           const v = catVotes[pa.playerId];
           const isMe = pa.playerId === myPlayerId;
           const points = predictPoints(answer, pa.playerId, allAnswers, catVotes, gameState.letter ?? '');
-          const borderColor = v === true ? `${T.green}55` : v === false ? `${T.red}55` : T.border;
-          const bgColor = v === true ? `${T.green}0a` : v === false ? `${T.red}0a` : T.surface;
+          const isDuplicate = duplicatePlayerIds.has(pa.playerId);
+          const borderColor = v === true ? `${T.green}55` : v === false ? `${T.red}55` : isDuplicate ? '#f9731655' : T.border;
+          const bgColor = v === true ? `${T.green}0a` : v === false ? `${T.red}0a` : isDuplicate ? '#f9731608' : T.surface;
 
           return (
             <Card key={pa.playerId} style={{ border: `1.5px solid ${borderColor}`, background: bgColor }}>
@@ -100,8 +109,15 @@ export function Voting() {
                   <div style={{ fontSize: 12, color: T.muted, fontWeight: 600, marginBottom: 2 }}>
                     {pa.playerEmoji} {pa.playerName}{isMe ? ' (Du)' : ''}
                   </div>
-                  <div style={{ fontFamily: T.head, fontWeight: 700, fontSize: 20, color: answer ? T.text : T.muted, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    {answer || '(leer)'}
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, flexWrap: 'wrap' }}>
+                    <div style={{ fontFamily: T.head, fontWeight: 700, fontSize: 20, color: answer ? T.text : T.muted, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      {answer || '(leer)'}
+                    </div>
+                    {isDuplicate && (
+                      <div style={{ fontSize: 11, fontWeight: 700, color: '#f97316', background: '#f9731618', border: '1px solid #f9731644', borderRadius: 6, paddingInline: 6, paddingBlock: 2, whiteSpace: 'nowrap', flexShrink: 0 }}>
+                        = Doppelt
+                      </div>
+                    )}
                   </div>
                 </div>
 

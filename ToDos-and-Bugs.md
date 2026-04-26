@@ -14,7 +14,7 @@
 ### Gameplay
 - [x] Show all answers across all categories in the final score display (added a tab with Points and Answers so players can switch as they wish :D)
 - [X] Keep answers visible on the scoreboard so players can review them before the admin starts the next round
-- [ ] Highlight duplicate answers during voting so players can spot them easily
+- [x] Highlight duplicate answers during voting so players can spot them easily
 - [ ] Show how many players have already submitted during an active round (e.g. "2 / 4 done")
 - [ ] Notify all players when someone hits "Done" early (currently only the timer changes)
 - [ ] Animation when the letter is being chosen.. don't just let it pop up

@@ -12,11 +12,11 @@ export function Home() {
         <div style={{ fontSize: 64, lineHeight: 1 }}>🎮</div>
         <div>
           <div style={{ fontFamily: T.head, fontWeight: 800, fontSize: 30, lineHeight: 1.1, letterSpacing: -1 }}>
-            Stadt Land<br />
-            <span style={{ color: T.primary }}>Fluss Friends</span>
+            Stadt Land Fluss<br />
+            <span style={{ color: T.primary }}>Friends</span>
           </div>
           <div style={{ color: T.muted, fontSize: 15, marginTop: 10, fontWeight: 400 }}>
-            Das Klassiker-Spiel – jetzt online mit Freunden
+            
           </div>
         </div>
         <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>

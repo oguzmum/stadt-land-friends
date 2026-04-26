@@ -18,8 +18,8 @@ const inputStyle: React.CSSProperties = {
 };
 
 export function Join() {
-  const { goTo, joinGame } = useGame();
-  const [code, setCode] = useState('');
+  const { goTo, joinGame, initialRoomCode } = useGame();
+  const [code, setCode] = useState(initialRoomCode);
   const [name, setName] = useState('');
 
   const handleJoin = () => {

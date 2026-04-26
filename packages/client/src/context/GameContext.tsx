@@ -4,10 +4,20 @@ import type { GameState, ClientToServerEvents, ServerToClientEvents, GameSetting
 
 export type AppScreen = 'home' | 'create' | 'join' | 'lobby' | 'reveal' | 'game' | 'voting' | 'scoreboard';
 
+function parseInitialScreen(): { screen: AppScreen; roomCode: string } {
+  const match = window.location.pathname.match(/^\/join\/([A-Z0-9]{4,8})$/i);
+  if (match) {
+    history.replaceState(null, '', '/');
+    return { screen: 'join', roomCode: match[1].toUpperCase() };
+  }
+  return { screen: 'home', roomCode: '' };
+}
+
 interface GameContextType {
   screen: AppScreen;
   gameState: GameState | null;
   myPlayerId: string | null;
+  initialRoomCode: string;
   error: string | null;
   isConnected: boolean;
   // actions
@@ -30,7 +40,9 @@ const GameContext = createContext<GameContextType | null>(null);
 const SOCKET_URL = import.meta.env.VITE_SERVER_URL || '';
 
 export function GameProvider({ children }: { children: React.ReactNode }) {
-  const [screen, setScreen] = useState<AppScreen>('home');
+  const initial = parseInitialScreen();
+  const [screen, setScreen] = useState<AppScreen>(initial.screen);
+  const [initialRoomCode] = useState(initial.roomCode);
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [myPlayerId, setMyPlayerId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -161,7 +173,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <GameContext.Provider value={{
-      screen, gameState, myPlayerId, error, isConnected,
+      screen, gameState, myPlayerId, initialRoomCode, error, isConnected,
       goTo: setScreen,
       createGame, joinGame, updateSettings, startGame,
       submitAnswers, markDone, submitVote, nextCategory, nextRound, playAgain,

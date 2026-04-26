@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stadt Land Fluss Friends</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; background: #07070f; display: flex; align-items: center; justify-content: center; }
+    body { padding: 24px 16px; }
+    input, button { -webkit-tap-highlight-color: transparent; }
+    input::placeholder { color: rgba(255,255,255,0.25); }
+    ::-webkit-scrollbar { width: 0; }
+
+    /* Tweaks panel */
+    #tweaks-panel {
+      display: none; position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+      background: #1a1a2e; border: 1px solid rgba(255,255,255,0.12); border-radius: 20px;
+      padding: 20px; width: 240px; box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      font-family: 'DM Sans', sans-serif; color: #fff;
+    }
+    #tweaks-panel h3 { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 800; margin-bottom: 16px; }
+    .tweak-row { margin-bottom: 14px; }
+    .tweak-label { font-size: 12px; color: rgba(255,255,255,0.5); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+    .tweak-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tweak-pill { padding: 6px 12px; border-radius: 20px; border: 1.5px solid rgba(255,255,255,0.1); background: #22223a; color: rgba(255,255,255,0.6); font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
+    .tweak-pill.active { border-color: #f7c948; background: rgba(247,201,72,0.15); color: #f7c948; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <div id="tweaks-panel">
+    <h3>Tweaks</h3>
+    <div class="tweak-row">
+      <div class="tweak-label">Farbschema</div>
+      <div class="tweak-pills" id="theme-pills">
+        <button class="tweak-pill active" data-theme="dark">Dunkel</button>
+        <button class="tweak-pill" data-theme="neon">Neon</button>
+        <button class="tweak-pill" data-theme="sand">Sand</button>
+      </div>
+    </div>
+    <div class="tweak-row">
+      <div class="tweak-label">Accent-Farbe</div>
+      <div class="tweak-pills" id="accent-pills">
+        <button class="tweak-pill active" data-accent="#f7c948">Gelb</button>
+        <button class="tweak-pill" data-accent="#ff5e7e">Coral</button>
+        <button class="tweak-pill" data-accent="#4ade80">Grün</button>
+        <button class="tweak-pill" data-accent="#818cf8">Lila</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/babel" src="ios-frame.jsx"></script>
+  <script type="text/babel" src="game-app.jsx"></script>
+  <script type="text/babel">
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "theme": "neon",
+      "accent": "#ff5e7e"
+    }/*EDITMODE-END*/;
+
+    const THEMES = {
+      dark: { bg: '#0e0e1a', surface: '#181828', surfaceHigh: '#22223a' },
+      neon: { bg: '#04050d', surface: '#0d0f1f', surfaceHigh: '#141626' },
+      sand: { bg: '#1a1410', surface: '#221c16', surfaceHigh: '#2d2420' },
+    };
+
+    function applyTheme(theme, accent) {
+      const t = THEMES[theme] || THEMES.dark;
+      document.documentElement.style.setProperty('--bg', t.bg);
+      document.body.style.background = theme === 'neon' ? '#020208' : theme === 'sand' ? '#0e0c08' : '#07070f';
+      // Update T object in window scope
+      if (window._applyGameTheme) window._applyGameTheme(theme, accent);
+    }
+
+    function App() {
+      const [theme, setTheme] = React.useState(TWEAK_DEFAULTS.theme);
+      const [accent, setAccent] = React.useState(TWEAK_DEFAULTS.accent);
+
+      // expose theme updater
+      React.useEffect(() => {
+        window._applyGameTheme = (t, a) => { setTheme(t); setAccent(a); };
+        return () => { window._applyGameTheme = null; };
+      }, []);
+
+      // Dynamic theme override via CSS vars injected inline
+      const themeStyles = {
+        dark: { '--sbg': '#0e0e1a' },
+        neon: { '--sbg': '#04050d' },
+        sand: { '--sbg': '#1a1410' },
+      };
+
+      // Pass accent color override via CSS custom property
+      const accentStyle = `
+        :root { --accent: ${accent}; }
+      `;
+
+      return (
+        <>
+          <style>{accentStyle}</style>
+          <IOSDevice dark width={390} height={844}>
+            <StadtLandFluss accent={accent} theme={theme} />
+          </IOSDevice>
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
+    // ── Tweaks integration ──────────────────────────────────
+    let tweakState = { ...TWEAK_DEFAULTS };
+
+    window.addEventListener('message', e => {
+      if (e.data?.type === '__activate_edit_mode') document.getElementById('tweaks-panel').style.display = 'block';
+      if (e.data?.type === '__deactivate_edit_mode') document.getElementById('tweaks-panel').style.display = 'none';
+    });
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+
+    function postEdits() {
+      window.parent.postMessage({ type: '__edit_mode_set_keys', edits: tweakState }, '*');
+    }
+
+    document.querySelectorAll('[data-theme]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('[data-theme]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        tweakState.theme = btn.dataset.theme;
+        if (window._applyGameTheme) window._applyGameTheme(tweakState.theme, tweakState.accent);
+        postEdits();
+      });
+    });
+
+    document.querySelectorAll('[data-accent]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('[data-accent]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        tweakState.accent = btn.dataset.accent;
+        if (window._applyGameTheme) window._applyGameTheme(tweakState.theme, tweakState.accent);
+        postEdits();
+      });
+    });
+  </script>
+</body>
+</html>

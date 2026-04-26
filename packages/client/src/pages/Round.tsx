@@ -3,6 +3,7 @@ import { T } from '../theme';
 import { Btn } from '../components/Btn';
 import { Screen } from '../components/Screen';
 import { useGame } from '../context/GameContext';
+import { isAnswerValid } from '@stadt-land-fluss/shared';
 
 export function Round() {
   const { gameState, submitAnswers } = useGame();
@@ -85,19 +86,26 @@ export function Round() {
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {cats.map(cat => (
-              <div key={cat.id} style={{ background: T.surface, borderRadius: 16, border: `1px solid ${T.border}`, overflow: 'hidden' }}>
-                <div style={{ padding: '10px 16px 0', fontSize: 13, fontWeight: 600, color: T.muted, display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <span>{cat.icon}</span><span>{cat.label}</span>
+            {cats.map(cat => {
+              const val = answers[cat.id] || '';
+              const invalid = val.trim().length > 0 && !isAnswerValid(val, letter);
+              return (
+                <div key={cat.id} style={{ background: T.surface, borderRadius: 16, border: `1.5px solid ${invalid ? T.red : T.border}`, overflow: 'hidden', transition: 'border-color 0.2s' }}>
+                  <div style={{ padding: '10px 16px 0', fontSize: 13, fontWeight: 600, color: invalid ? T.red : T.muted, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <span>{cat.icon}</span><span>{cat.label}</span>
+                    </div>
+                    {invalid && <span style={{ fontSize: 12 }}>muss mit „{letter}" beginnen</span>}
+                  </div>
+                  <input
+                    value={val}
+                    onChange={e => set(cat.id, e.target.value)}
+                    placeholder={`${letter}…`}
+                    style={{ width: '100%', boxSizing: 'border-box', background: 'transparent', border: 'none', padding: '8px 16px 14px', color: invalid ? T.red : T.text, fontFamily: T.body, fontSize: 18, fontWeight: 600, outline: 'none' }}
+                  />
                 </div>
-                <input
-                  value={answers[cat.id] || ''}
-                  onChange={e => set(cat.id, e.target.value)}
-                  placeholder={`${letter}…`}
-                  style={{ width: '100%', boxSizing: 'border-box', background: 'transparent', border: 'none', padding: '8px 16px 14px', color: T.text, fontFamily: T.body, fontSize: 18, fontWeight: 600, outline: 'none' }}
-                />
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>

@@ -1,6 +1,6 @@
 import type { Server, Socket } from 'socket.io';
 import type { ClientToServerEvents, ServerToClientEvents } from '@stadt-land-fluss/shared';
-import { DEFAULT_CATEGORIES, DEFAULT_ROUND_TIME, DEFAULT_TOTAL_ROUNDS } from '@stadt-land-fluss/shared';
+import { DEFAULT_CATEGORIES, DEFAULT_ROUND_TIME, DEFAULT_TOTAL_ROUNDS, isAnswerValid } from '@stadt-land-fluss/shared';
 import * as gameManager from './gameManager';
 import {
   pickLetter,
@@ -84,7 +84,11 @@ export function registerHandlers(io: GameServer, socket: GameSocket): void {
     if (!player || player.hasSubmitted) return;
 
     player.hasSubmitted = true;
-    game.answers.set(socket.id, answers);
+    const cleanedAnswers: Record<string, string> = {};
+    for (const [catId, answer] of Object.entries(answers)) {
+      cleanedAnswers[catId] = isAnswerValid(answer, game.currentLetter) ? answer.trim() : '';
+    }
+    game.answers.set(socket.id, cleanedAnswers);
 
     const allSubmitted = game.players.every(p => p.hasSubmitted);
     if (allSubmitted) endRound(io, game);

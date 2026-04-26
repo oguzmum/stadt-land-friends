@@ -2,7 +2,7 @@
 
 ## Bugs
 
-- [ ] Answers are not validated against the current letter — players can submit anything
+- [x] Answers are not validated against the current letter — players can submit anything
 - [ ] Closing the phone screen disconnects from the server (no reconnect on wake)
 - [x] After voting through all categories, the admin sees no button to proceed to the next round. But the other players see the scoreboard as expected..
 
@@ -17,6 +17,8 @@
 - [ ] Show how many players have already submitted during an active round (e.g. "2 / 4 done")
 - [ ] Notify all players when someone hits "Done" early (currently only the timer changes)
 - [ ] Animation when the letter is being chosen.. don't just let it pop up
+- [ ] While skipping through the answers, display a information how much points each player will get
+  - 5 for duplicates, 10 for unique (maybe later 20 for upvoted by every other player)
 
 ### UX
 - [ ] Generate a real QR code that encodes the join URL (`/join/<roomCode>`)
@@ -36,3 +38,9 @@
 
 ### Tests 
 - [ ] Add tests
+
+---
+
+## Clean Code
+
+- [ ] Rename `cats` and `cat` to categories to and category

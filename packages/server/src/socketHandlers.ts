@@ -99,6 +99,15 @@ export function registerHandlers(io: GameServer, socket: GameSocket): void {
     startRound(io, game);
   });
 
+  // ── Skip Letter ────────────────────────────────────────────
+  socket.on('skip-letter', () => {
+    const game = gameManager.getGameBySocketId(socket.id);
+    if (!game || game.phase !== 'playing') return;
+    const player = game.players.find(p => p.socketId === socket.id);
+    if (!player?.isAdmin) return;
+    restartCurrentRound(io, game);
+  });
+
   // ── Submit Answers ─────────────────────────────────────────
   socket.on('submit-answers', ({ answers }) => {
     const game = gameManager.getGameBySocketId(socket.id);
@@ -233,6 +242,16 @@ export function registerHandlers(io: GameServer, socket: GameSocket): void {
 function startRound(io: GameServer, game: ReturnType<typeof gameManager.getGameBySocketId> & {}): void {
   resetForNewRound(game);
   game.currentRound++;
+  game.phase = 'playing';
+  launchRound(io, game);
+}
+
+function restartCurrentRound(io: GameServer, game: ReturnType<typeof gameManager.getGameBySocketId> & {}): void {
+  resetForNewRound(game);
+  launchRound(io, game);
+}
+
+function launchRound(io: GameServer, game: ReturnType<typeof gameManager.getGameBySocketId> & {}): void {
   const letter = pickLetter(game);
   game.currentLetter = letter;
   game.usedLetters.push(letter);

@@ -33,7 +33,7 @@
 ### Admin
 - [ ] Let the admin kick players from the lobby
 - [ ] Let the admin change settings between rounds without restarting the whole game
-- [ ] Ability to skip a letter (e.g. Y or Z ..)
+- [x] Ability to skip a letter (e.g. Y or Z ..)
 
 ### Technical
 - [x] Reconnect handling — rejoin the active game automatically after phone wakes up or briefly loses connection

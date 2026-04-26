@@ -59,6 +59,7 @@ interface GameContextType {
   joinGame: (roomCode: string, nickname: string) => void;
   updateSettings: (data: Partial<GameSettings>) => void;
   startGame: () => void;
+  skipLetter: () => void;
   submitAnswers: (answers: Record<string, string>) => void;
   markDone: () => void;
   submitVote: (targetPlayerId: string, categoryId: string, accepted: boolean) => void;
@@ -223,6 +224,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     emit('player-done');
   }, [emit]);
 
+  const skipLetter = useCallback(() => {
+    emit('skip-letter');
+  }, [emit]);
+
   const markDone = useCallback(() => {
     emit('player-done');
   }, [emit]);
@@ -260,7 +265,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       goTo: setScreen,
       leaveGame,
       createGame, joinGame, updateSettings, startGame,
-      submitAnswers, markDone, submitVote, nextCategory, nextRound, playAgain,
+      skipLetter, submitAnswers, markDone, submitVote, nextCategory, nextRound, playAgain,
       clearError: () => setError(null),
       finishedNotification,
     }}>

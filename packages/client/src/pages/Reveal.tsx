@@ -9,14 +9,20 @@ const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const CYCLE_DELAYS = [45, 50, 55, 65, 80, 100, 130, 170, 225, 290, 270];
 
 export function Reveal() {
-  const { gameState, goTo } = useGame();
+  const { gameState, myPlayerId, goTo, skipLetter } = useGame();
   const [phase, setPhase] = useState<0 | 1 | 2>(0);
   const [count, setCount] = useState(3);
   const [display, setDisplay] = useState('?');
   const letter = gameState?.letter ?? '?';
+  const me = gameState?.players.find(player => player.id === myPlayerId);
+  const isAdmin = me?.isAdmin ?? false;
 
   // Cycling + phase transitions (runs once on mount)
   useEffect(() => {
+    setPhase(0);
+    setCount(3);
+    setDisplay('?');
+
     const timeouts: ReturnType<typeof setTimeout>[] = [];
     let acc = 350; // pause before cycling begins
 
@@ -56,6 +62,27 @@ export function Reveal() {
 
   return (
     <Screen style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center', gap: 24 }}>
+      {isAdmin && (
+        <button
+          onClick={skipLetter}
+          style={{
+            position: 'absolute',
+            top: 16,
+            right: 20,
+            background: T.surfaceHigh,
+            border: `1px solid ${T.border}`,
+            borderRadius: 999,
+            color: T.text,
+            fontFamily: T.body,
+            fontSize: 13,
+            fontWeight: 700,
+            cursor: 'pointer',
+            padding: '8px 12px',
+          }}
+        >
+          Buchstabe skippen
+        </button>
+      )}
       <div style={{ color: T.muted, fontSize: 18, fontFamily: T.head, fontWeight: 600, minHeight: 28 }}>
         {phaseLabel}
       </div>

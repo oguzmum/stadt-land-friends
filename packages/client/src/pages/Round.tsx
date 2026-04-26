@@ -6,7 +6,7 @@ import { useGame } from '../context/GameContext';
 import { isAnswerValid } from '@stadt-land-fluss/shared';
 
 export function Round() {
-  const { gameState, submitAnswers, leaveGame, finishedNotification } = useGame();
+  const { gameState, myPlayerId, submitAnswers, leaveGame, skipLetter, finishedNotification } = useGame();
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
@@ -18,6 +18,8 @@ export function Round() {
   const letter = gameState?.letter ?? '?';
   const cats = gameState?.settings.categories ?? [];
   const roundTime = gameState?.settings.roundTime ?? 120;
+  const me = gameState?.players.find(player => player.id === myPlayerId);
+  const isAdmin = me?.isAdmin ?? false;
 
   useEffect(() => {
     if (!gameState?.endTime) return;
@@ -88,6 +90,27 @@ export function Round() {
         <button onClick={leaveGame} style={{ position: 'absolute', top: 16, left: 20, background: 'none', border: 'none', color: T.muted, fontFamily: T.body, fontSize: 14, cursor: 'pointer', padding: 0 }}>
           ← Verlassen
         </button>
+        {isAdmin && !submitted && (
+          <button
+            onClick={skipLetter}
+            style={{
+              position: 'absolute',
+              top: 16,
+              right: 20,
+              background: T.surfaceHigh,
+              border: `1px solid ${T.border}`,
+              borderRadius: 999,
+              color: T.text,
+              fontFamily: T.body,
+              fontSize: 13,
+              fontWeight: 700,
+              cursor: 'pointer',
+              padding: '8px 12px',
+            }}
+          >
+            Buchstabe skippen
+          </button>
+        )}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
           <div style={{ fontFamily: T.head, fontWeight: 900, fontSize: 52, color: T.primary, lineHeight: 1 }}>
             {letter}

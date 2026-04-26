@@ -69,6 +69,7 @@ export interface ClientToServerEvents {
   'leave-game': () => void;
   'update-settings': (data: Partial<GameSettings>) => void;
   'start-game': () => void;
+  'skip-letter': () => void;
   'submit-answers': (data: { answers: Record<string, string> }) => void;
   'player-done': () => void;
   'submit-vote': (data: { targetPlayerId: string; categoryId: string; accepted: boolean }) => void;

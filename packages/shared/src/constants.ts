@@ -21,8 +21,8 @@ export const MAX_PLAYERS = 10;
 export const ROOM_CODE_LENGTH = 6;
 export const ACCELERATED_TIMER_SECS = 15;
 
-export const POINTS_UNIQUE = 20;
-export const POINTS_SHARED = 10;
+export const POINTS_UNIQUE = 10;
+export const POINTS_SHARED = 5;
 export const POINTS_EMPTY = 0;
 
 export const PLAYER_EMOJIS = ['🦊', '🐼', '🦁', '🐯', '🦋', '🐙', '🦄', '🐸', '🦅', '🐬'];

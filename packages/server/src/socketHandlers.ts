@@ -84,11 +84,11 @@ export function registerHandlers(io: GameServer, socket: GameSocket): void {
     if (!player || player.hasSubmitted) return;
 
     player.hasSubmitted = true;
-    const cleanedAnswers: Record<string, string> = {};
+    const trimmedAnswers: Record<string, string> = {};
     for (const [catId, answer] of Object.entries(answers)) {
-      cleanedAnswers[catId] = isAnswerValid(answer, game.currentLetter) ? answer.trim() : '';
+      trimmedAnswers[catId] = answer.trim();
     }
-    game.answers.set(socket.id, cleanedAnswers);
+    game.answers.set(socket.id, trimmedAnswers);
 
     const allSubmitted = game.players.every(p => p.hasSubmitted);
     if (allSubmitted) endRound(io, game);

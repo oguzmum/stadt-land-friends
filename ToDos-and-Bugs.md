@@ -3,6 +3,7 @@
 ## Bugs
 
 - [x] Answers are not validated against the current letter — players can submit anything
+  - [x] Answers need to be validated in the score phase too (0 points if the first letter doesn't match current letter)
 - [ ] Closing the phone screen disconnects from the server (no reconnect on wake)
 - [x] After voting through all categories, the admin sees no button to proceed to the next round. But the other players see the scoreboard as expected..
 

@@ -53,7 +53,11 @@ export function Round() {
   const handleSubmit = () => {
     if (submitted) return;
     setSubmitted(true);
-    submitAnswers(answers);
+    const trimmed: Record<string, string> = {};
+    for (const [catId, val] of Object.entries(answers)) {
+      trimmed[catId] = val.trim();
+    }
+    submitAnswers(trimmed);
   };
 
   return (

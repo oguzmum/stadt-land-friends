@@ -8,6 +8,7 @@ import {
   POINTS_EMPTY,
   answersMatch,
   isAnswerEmpty,
+  isAnswerValid,
 } from '@stadt-land-fluss/shared';
 
 export function pickLetter(game: ServerGame): string {
@@ -50,7 +51,7 @@ export function calculateRoundScores(game: ServerGame): {
 
     for (const pa of answersArr) {
       const answer = pa.answers[catId] || '';
-      if (isAnswerEmpty(answer)) continue;
+      if (isAnswerEmpty(answer) || !isAnswerValid(answer, game.currentLetter)) continue;
 
       const voteKey = `${catId}_${pa.playerId}`;
       const accepted = game.votes.get(voteKey) !== false;

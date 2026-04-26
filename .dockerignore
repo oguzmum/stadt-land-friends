@@ -1,0 +1,12 @@
+node_modules
+packages/*/node_modules
+packages/*/dist
+.git
+.github
+design
+npm-debug.log
+Dockerfile*
+docker-compose*.yml
+README.md
+ARCHITECTURE.md
+ToDos-and-Bugs.md

@@ -1,0 +1,20 @@
+services:
+  stadt-land-fluss:
+    image: stadt-land-fluss:latest
+    build:
+      context: ..
+      dockerfile: Docker/Dockerfile
+    container_name: stadt-land-fluss
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      CLIENT_URL: ${CLIENT_URL:-http://localhost:3001}
+    ports:
+      - "${APP_PORT:-3001}:3001"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3001/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 15s

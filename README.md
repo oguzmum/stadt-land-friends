@@ -21,3 +21,12 @@ npm run dev
 
 ---
 
+## Docker
+
+```bash
+cp .env.example .env
+
+docker build -f Docker/Dockerfile -t stadt-land-fluss .
+
+docker compose up -d --build
+```

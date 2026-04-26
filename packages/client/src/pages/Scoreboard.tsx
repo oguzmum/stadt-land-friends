@@ -23,7 +23,7 @@ function computePoints(
 }
 
 export function Scoreboard() {
-  const { gameState, myPlayerId, playAgain, goTo, nextRound } = useGame();
+  const { gameState, myPlayerId, playAgain, leaveGame, nextRound } = useGame();
   const [tab, setTab] = useState<'scores' | 'answers'>('scores');
 
   if (!gameState) return null;
@@ -43,7 +43,7 @@ export function Scoreboard() {
   });
 
   return (
-    <Screen>
+    <Screen onLeave={leaveGame}>
       <div style={{ fontFamily: T.head, fontWeight: 900, fontSize: 30, textAlign: 'center', marginBottom: 4 }}>
         {isFinished ? '🏆 Endstand' : `Runde ${gameState.currentRound} beendet`}
       </div>
@@ -168,7 +168,7 @@ export function Scoreboard() {
           {isFinished ? (
             <>
               <Btn onClick={playAgain} size="lg" full>🔄 Nochmal spielen</Btn>
-              <Btn onClick={() => goTo('home')} variant="ghost" size="md" full>🏠 Zur Startseite</Btn>
+              <Btn onClick={() => leaveGame()} variant="ghost" size="md" full>🏠 Zur Startseite</Btn>
             </>
           ) : (
             <Btn onClick={nextRound} size="lg" full>🚀 Nächste Runde starten</Btn>
@@ -178,7 +178,7 @@ export function Scoreboard() {
       {!isAdmin && (
         <div style={{ paddingTop: 24, textAlign: 'center', color: T.muted, fontSize: 14 }}>
           {isFinished ? (
-            <Btn onClick={() => goTo('home')} variant="ghost" size="md" full>🏠 Zur Startseite</Btn>
+            <Btn onClick={() => leaveGame()} variant="ghost" size="md" full>🏠 Zur Startseite</Btn>
           ) : (
             'Warte auf den Admin…'
           )}

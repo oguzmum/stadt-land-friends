@@ -8,7 +8,7 @@ import { QRCode } from '../components/QRCode';
 import { useGame } from '../context/GameContext';
 
 export function Lobby() {
-  const { gameState, myPlayerId, goTo, startGame } = useGame();
+  const { gameState, myPlayerId, leaveGame, startGame } = useGame();
   const [copied, setCopied] = useState(false);
 
   if (!gameState) return null;
@@ -25,10 +25,7 @@ export function Lobby() {
   };
 
   return (
-    <Screen>
-      <button onClick={() => goTo('home')} style={{ background: 'none', border: 'none', color: T.muted, fontFamily: T.body, fontSize: 15, cursor: 'pointer', textAlign: 'left', padding: 0, marginBottom: 16 }}>
-        ← Verlassen
-      </button>
+    <Screen onLeave={leaveGame}>
       <div style={{ fontFamily: T.head, fontWeight: 800, fontSize: 22, marginBottom: 4 }}>Warteraum</div>
       <div style={{ color: T.muted, fontSize: 14, marginBottom: 20 }}>
         {gameState.players.length} von bis zu 10 Spieler:innen

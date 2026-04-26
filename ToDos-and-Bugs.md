@@ -20,7 +20,7 @@
 - [ ] Animation when the letter is being chosen.. don't just let it pop up
 - [x] While skipping through the answers, display a information how much points each player will get
   - 5 for duplicates, 10 for unique (maybe later 20 for upvoted by every other player)
-- [ ] Ability to just close the current game and start a new one (return to homepage at any time)
+- [x] Ability to just close the current game and start a new one (return to homepage at any time)
 
 ### UX
 - [x] Generate a real QR code that encodes the join URL (`/join/<roomCode>`)

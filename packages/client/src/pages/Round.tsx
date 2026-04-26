@@ -6,7 +6,7 @@ import { useGame } from '../context/GameContext';
 import { isAnswerValid } from '@stadt-land-fluss/shared';
 
 export function Round() {
-  const { gameState, submitAnswers } = useGame();
+  const { gameState, submitAnswers, leaveGame } = useGame();
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
@@ -64,6 +64,9 @@ export function Round() {
     <Screen pad={false}>
       {/* Sticky header */}
       <div style={{ padding: '56px 20px 0', background: T.bg, position: 'sticky', top: 0, zIndex: 10, paddingBottom: 16 }}>
+        <button onClick={leaveGame} style={{ position: 'absolute', top: 16, left: 20, background: 'none', border: 'none', color: T.muted, fontFamily: T.body, fontSize: 14, cursor: 'pointer', padding: 0 }}>
+          ← Verlassen
+        </button>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
           <div style={{ fontFamily: T.head, fontWeight: 900, fontSize: 52, color: T.primary, lineHeight: 1 }}>
             {letter}

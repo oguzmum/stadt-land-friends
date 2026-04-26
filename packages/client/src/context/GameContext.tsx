@@ -54,6 +54,7 @@ interface GameContextType {
   isConnected: boolean;
   // actions
   goTo: (screen: AppScreen) => void;
+  leaveGame: () => void;
   createGame: (nickname: string, settings: GameSettings) => void;
   joinGame: (roomCode: string, nickname: string) => void;
   updateSettings: (data: Partial<GameSettings>) => void;
@@ -226,10 +227,19 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     emit('play-again');
   }, [emit]);
 
+  const leaveGame = useCallback(() => {
+    if (!window.confirm('Spiel wirklich verlassen?')) return;
+    clearPlayerId();
+    setGameState(null);
+    setMyPlayerId(null);
+    setScreen('home');
+  }, []);
+
   return (
     <GameContext.Provider value={{
       screen, gameState, myPlayerId, initialRoomCode, error, isConnected,
       goTo: setScreen,
+      leaveGame,
       createGame, joinGame, updateSettings, startGame,
       submitAnswers, markDone, submitVote, nextCategory, nextRound, playAgain,
       clearError: () => setError(null),

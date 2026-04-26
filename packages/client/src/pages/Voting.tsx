@@ -37,7 +37,7 @@ function PointsBadge({ points }: { points: number }) {
 }
 
 export function Voting() {
-  const { gameState, myPlayerId, submitVote, nextCategory, nextRound } = useGame();
+  const { gameState, myPlayerId, submitVote, nextCategory, nextRound, leaveGame } = useGame();
 
   if (!gameState || !gameState.answers) return null;
 
@@ -70,7 +70,7 @@ export function Voting() {
   if (!cat) return null;
 
   return (
-    <Screen>
+    <Screen onLeave={leaveGame}>
       <div style={{ fontFamily: T.head, fontWeight: 800, fontSize: 13, letterSpacing: 1.5, color: T.muted, textTransform: 'uppercase', marginBottom: 8 }}>
         Abstimmung {idx + 1} / {cats.length}
       </div>

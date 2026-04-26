@@ -1,7 +1,7 @@
 import type { Server, Socket } from 'socket.io';
 import type { ClientToServerEvents, ServerToClientEvents } from '@stadt-land-fluss/shared';
 import { DEFAULT_CATEGORIES, DEFAULT_ROUND_TIME, DEFAULT_TOTAL_ROUNDS } from '@stadt-land-fluss/shared';
-import * as gm from './gameManager';
+import * as gameManager from './gameManager';
 import {
   pickLetter,
   accelerateTimer,
@@ -22,7 +22,7 @@ export function registerHandlers(io: GameServer, socket: GameSocket): void {
       roundTime: settings.roundTime || DEFAULT_ROUND_TIME,
       totalRounds: settings.totalRounds || DEFAULT_TOTAL_ROUNDS,
     };
-    const game = gm.createGame(socket.id, nickname, finalSettings);
+    const game = gameManager.createGame(socket.id, nickname, finalSettings);
     socket.join(game.roomCode);
     socket.emit('game-created', {
       roomCode: game.roomCode,
@@ -33,7 +33,7 @@ export function registerHandlers(io: GameServer, socket: GameSocket): void {
 
   // ── Join Game ──────────────────────────────────────────────
   socket.on('join-game', ({ roomCode, nickname }) => {
-    const result = gm.joinGame(roomCode.toUpperCase(), socket.id, nickname);
+    const result = gameManager.joinGame(roomCode.toUpperCase(), socket.id, nickname);
     if (!result) {
       socket.emit('error', { message: 'Raum nicht gefunden oder Spiel läuft bereits.' });
       return;
@@ -53,7 +53,7 @@ export function registerHandlers(io: GameServer, socket: GameSocket): void {
 
   // ── Update Settings ────────────────────────────────────────
   socket.on('update-settings', (data) => {
-    const game = gm.getGameBySocketId(socket.id);
+    const game = gameManager.getGameBySocketId(socket.id);
     if (!game) return;
     const player = game.players.find(p => p.socketId === socket.id);
     if (!player?.isAdmin) return;
@@ -65,7 +65,7 @@ export function registerHandlers(io: GameServer, socket: GameSocket): void {
 
   // ── Start Game ─────────────────────────────────────────────
   socket.on('start-game', () => {
-    const game = gm.getGameBySocketId(socket.id);
+    const game = gameManager.getGameBySocketId(socket.id);
     if (!game) return;
     const player = game.players.find(p => p.socketId === socket.id);
     if (!player?.isAdmin) return;
@@ -78,7 +78,7 @@ export function registerHandlers(io: GameServer, socket: GameSocket): void {
 
   // ── Submit Answers ─────────────────────────────────────────
   socket.on('submit-answers', ({ answers }) => {
-    const game = gm.getGameBySocketId(socket.id);
+    const game = gameManager.getGameBySocketId(socket.id);
     if (!game || game.phase !== 'playing') return;
     const player = game.players.find(p => p.socketId === socket.id);
     if (!player || player.hasSubmitted) return;
@@ -92,7 +92,7 @@ export function registerHandlers(io: GameServer, socket: GameSocket): void {
 
   // ── Player Done ────────────────────────────────────────────
   socket.on('player-done', () => {
-    const game = gm.getGameBySocketId(socket.id);
+    const game = gameManager.getGameBySocketId(socket.id);
     if (!game || game.phase !== 'playing') return;
     const player = game.players.find(p => p.socketId === socket.id);
     if (!player || player.hasDone) return;
@@ -104,7 +104,7 @@ export function registerHandlers(io: GameServer, socket: GameSocket): void {
 
   // ── Submit Vote ────────────────────────────────────────────
   socket.on('submit-vote', ({ targetPlayerId, categoryId, accepted }) => {
-    const game = gm.getGameBySocketId(socket.id);
+    const game = gameManager.getGameBySocketId(socket.id);
     if (!game || game.phase !== 'voting') return;
     game.votes.set(`${categoryId}_${targetPlayerId}`, accepted);
     const votesObj: Record<string, Record<string, boolean>> = {};
@@ -118,7 +118,7 @@ export function registerHandlers(io: GameServer, socket: GameSocket): void {
 
   // ── Next Category ──────────────────────────────────────────
   socket.on('next-category', () => {
-    const game = gm.getGameBySocketId(socket.id);
+    const game = gameManager.getGameBySocketId(socket.id);
     if (!game || game.phase !== 'voting') return;
     const player = game.players.find(p => p.socketId === socket.id);
     if (!player?.isAdmin) return;
@@ -132,7 +132,7 @@ export function registerHandlers(io: GameServer, socket: GameSocket): void {
   // ── Next Round ─────────────────────────────────────────────
   // Called from Voting to show scores, OR from Scoreboard to start next round
   socket.on('next-round', () => {
-    const game = gm.getGameBySocketId(socket.id);
+    const game = gameManager.getGameBySocketId(socket.id);
     if (!game) return;
     const player = game.players.find(p => p.socketId === socket.id);
     if (!player?.isAdmin) return;
@@ -161,7 +161,7 @@ export function registerHandlers(io: GameServer, socket: GameSocket): void {
 
   // ── Play Again (same lobby) ────────────────────────────────
   socket.on('play-again', () => {
-    const game = gm.getGameBySocketId(socket.id);
+    const game = gameManager.getGameBySocketId(socket.id);
     if (!game) return;
     const player = game.players.find(p => p.socketId === socket.id);
     if (!player?.isAdmin) return;
@@ -171,10 +171,10 @@ export function registerHandlers(io: GameServer, socket: GameSocket): void {
 
   // ── Disconnect ─────────────────────────────────────────────
   socket.on('disconnect', () => {
-    const game = gm.getGameBySocketId(socket.id);
+    const game = gameManager.getGameBySocketId(socket.id);
     if (!game) return;
 
-    gm.markDisconnected(game, socket.id);
+    gameManager.markDisconnected(game, socket.id);
     socket.to(game.roomCode).emit('player-joined', {
       players: game.players.map(p => ({
         id: p.id, name: p.name, emoji: p.emoji,
@@ -183,7 +183,7 @@ export function registerHandlers(io: GameServer, socket: GameSocket): void {
     });
 
     if (game.phase === 'lobby') {
-      gm.removePlayer(game, socket.id);
+      gameManager.removePlayer(game, socket.id);
       if (game.players.length > 0) {
         io.to(game.roomCode).emit('player-left', {
           players: game.players.map(p => ({
@@ -196,7 +196,7 @@ export function registerHandlers(io: GameServer, socket: GameSocket): void {
   });
 }
 
-function startRound(io: GameServer, game: ReturnType<typeof gm.getGameBySocketId> & {}): void {
+function startRound(io: GameServer, game: ReturnType<typeof gameManager.getGameBySocketId> & {}): void {
   resetForNewRound(game);
   game.currentRound++;
   const letter = pickLetter(game);
@@ -216,7 +216,7 @@ function startRound(io: GameServer, game: ReturnType<typeof gm.getGameBySocketId
   });
 }
 
-function endRound(io: GameServer, game: ReturnType<typeof gm.getGameBySocketId> & {}): void {
+function endRound(io: GameServer, game: ReturnType<typeof gameManager.getGameBySocketId> & {}): void {
   if (game.roundTimer) { clearTimeout(game.roundTimer); game.roundTimer = null; }
   if (game.phase !== 'playing') return;
   game.phase = 'voting';

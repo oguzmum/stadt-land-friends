@@ -9,7 +9,7 @@ const MEDALS = ['🥇', '🥈', '🥉'];
 const PODIUM_COLORS = [T.primary, 'rgba(255,255,255,0.6)', '#cd7f32'];
 
 export function Scoreboard() {
-  const { gameState, myPlayerId, playAgain, goTo } = useGame();
+  const { gameState, myPlayerId, playAgain, goTo, nextRound } = useGame();
 
   if (!gameState) return null;
 

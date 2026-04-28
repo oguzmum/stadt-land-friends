@@ -1,4 +1,4 @@
-# Stadt Land Fluss Friends
+# Stadt Land Friends
 
 While going out with friends we sometimes played Stadt Land Fluss on websites, but the ads were so annoying that I decided to just build it myself.
 

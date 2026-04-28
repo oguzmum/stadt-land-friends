@@ -12,7 +12,7 @@ export function Home() {
         <div style={{ fontSize: 64, lineHeight: 1 }}>🎮</div>
         <div>
           <div style={{ fontFamily: T.head, fontWeight: 800, fontSize: 30, lineHeight: 1.1, letterSpacing: -1 }}>
-            Stadt Land Fluss<br />
+            Stadt Land<br />
             <span style={{ color: T.primary }}>Friends</span>
           </div>
           <div style={{ color: T.muted, fontSize: 15, marginTop: 10, fontWeight: 400 }}>

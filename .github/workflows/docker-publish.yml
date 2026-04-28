@@ -6,7 +6,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository_owner }}/stadt-land-fluss
+  IMAGE_NAME: ${{ github.repository_owner }}/stadt-land-friends
 
 jobs:
   docker:

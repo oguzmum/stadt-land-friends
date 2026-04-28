@@ -3,8 +3,7 @@ import type { Category } from './types';
 export const DEFAULT_CATEGORIES: Category[] = [
   { id: 'stadt',  icon: '🏙', label: 'Stadt'        },
   { id: 'land',   icon: '🌍', label: 'Land'         },
-  { id: 'fluss',  icon: '🌊', label: 'Fluss'        },
-  { id: 'name',   icon: '👤', label: 'Name'         },
+{ id: 'name',   icon: '👤', label: 'Name'         },
   { id: 'tier',   icon: '🐾', label: 'Tier'         },
   { id: 'beruf',  icon: '💼', label: 'Beruf'        },
   { id: 'film',   icon: '🎬', label: 'Film / Serie' },

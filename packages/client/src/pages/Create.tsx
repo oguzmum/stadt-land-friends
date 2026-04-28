@@ -3,8 +3,8 @@ import { T } from '../theme';
 import { Btn } from '../components/Btn';
 import { Screen } from '../components/Screen';
 import { useGame } from '../context/GameContext';
-import { DEFAULT_CATEGORIES } from '@stadt-land-fluss/shared';
-import type { Category } from '@stadt-land-fluss/shared';
+import { DEFAULT_CATEGORIES } from '@stadt-land-friends/shared';
+import type { Category } from '@stadt-land-friends/shared';
 
 const CAT_EMOJIS = ['⭐', '🎵', '🎨', '🍕', '🏆', '💡', '🌈', '🔥', '💎', '🎭', '📚', '🌊', '🎯', '🚀', '🍀'];
 const TIMER_OPTS = [60, 90, 120, 180];

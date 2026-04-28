@@ -17,7 +17,7 @@ Built mobile-first — designed to be played on phones around a table.
 ## Project Structure
 
 ```
-stadt-land-fluss/
+stadt-land-friends/
 ├── packages/
 │   ├── shared/          # Types, constants and validation shared between client and server
 │   ├── server/          # Express + Socket.IO game server

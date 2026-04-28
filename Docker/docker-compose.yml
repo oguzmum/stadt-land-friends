@@ -1,10 +1,10 @@
 services:
-  stadt-land-fluss:
-    image: stadt-land-fluss:latest
+  stadt-land-friends:
+    image: stadt-land-friends:latest
     build:
       context: ..
       dockerfile: Docker/Dockerfile
-    container_name: stadt-land-fluss
+    container_name: stadt-land-friends
     environment:
       NODE_ENV: production
       PORT: 3001

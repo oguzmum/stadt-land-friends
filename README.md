@@ -26,7 +26,7 @@ npm run dev
 ```bash
 cp .env.example .env
 
-docker build -f Docker/Dockerfile -t stadt-land-fluss .
+docker build -f Docker/Dockerfile -t stadt-land-friends .
 
 docker compose up -d --build
 ```

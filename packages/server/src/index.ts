@@ -3,7 +3,7 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import path from 'path';
-import type { ClientToServerEvents, ServerToClientEvents } from '@stadt-land-fluss/shared';
+import type { ClientToServerEvents, ServerToClientEvents } from '@stadt-land-friends/shared';
 import { registerHandlers } from './socketHandlers';
 import * as gameManager from './gameManager';
 import { toGameState } from './gameLogic';

@@ -3,7 +3,7 @@ import { T } from '../theme';
 import { Btn } from '../components/Btn';
 import { Screen } from '../components/Screen';
 import { useGame } from '../context/GameContext';
-import { isAnswerValid } from '@stadt-land-fluss/shared';
+import { isAnswerValid } from '@stadt-land-friends/shared';
 
 export function Round() {
   const { gameState, myPlayerId, submitAnswers, leaveGame, skipLetter, finishedNotification } = useGame();

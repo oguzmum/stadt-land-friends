@@ -1,5 +1,5 @@
 {
-  "name": "@stadt-land-fluss/client",
+  "name": "@stadt-land-friends/client",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
@@ -8,7 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@stadt-land-fluss/shared": "*",
+    "@stadt-land-friends/shared": "*",
     "qrcode.react": "^4.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

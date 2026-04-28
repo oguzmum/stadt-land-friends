@@ -4,7 +4,7 @@ import { Btn } from '../components/Btn';
 import { Screen } from '../components/Screen';
 import { Badge } from '../components/Badge';
 import { useGame } from '../context/GameContext';
-import { POINTS_UNIQUE, POINTS_SHARED, answersMatch, isAnswerValid } from '@stadt-land-fluss/shared';
+import { POINTS_UNIQUE, POINTS_SHARED, answersMatch, isAnswerValid } from '@stadt-land-friends/shared';
 
 const MEDALS = ['🥇', '🥈', '🥉'];
 const PODIUM_COLORS = [T.primary, 'rgba(255,255,255,0.6)', '#cd7f32'];

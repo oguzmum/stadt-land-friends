@@ -4,7 +4,7 @@ import { Btn } from '../components/Btn';
 import { Screen } from '../components/Screen';
 import { Card } from '../components/Card';
 import { useGame } from '../context/GameContext';
-import { POINTS_UNIQUE, POINTS_SHARED, answersMatch, isAnswerValid } from '@stadt-land-fluss/shared';
+import { POINTS_UNIQUE, POINTS_SHARED, answersMatch, isAnswerValid } from '@stadt-land-friends/shared';
 
 function predictPoints(
   answer: string,

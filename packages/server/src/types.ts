@@ -1,4 +1,4 @@
-import type { GameSettings, GamePhase, PlayerAnswers } from '@stadt-land-fluss/shared';
+import type { GameSettings, GamePhase, PlayerAnswers } from '@stadt-land-friends/shared';
 
 export interface ServerPlayer {
   id: string;

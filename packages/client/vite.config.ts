@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@stadt-land-fluss/shared': path.resolve(__dirname, '../shared/src/index.ts'),
+      '@stadt-land-friends/shared': path.resolve(__dirname, '../shared/src/index.ts'),
     },
   },
   server: {

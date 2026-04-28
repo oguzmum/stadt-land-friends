@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
 import type { ServerGame, ServerPlayer } from './types';
-import { ROOM_CODE_LENGTH, PLAYER_EMOJIS, DEFAULT_CATEGORIES, DEFAULT_ROUND_TIME, DEFAULT_TOTAL_ROUNDS } from '@stadt-land-fluss/shared';
+import { ROOM_CODE_LENGTH, PLAYER_EMOJIS, DEFAULT_CATEGORIES, DEFAULT_ROUND_TIME, DEFAULT_TOTAL_ROUNDS } from '@stadt-land-friends/shared';
 
 const games = new Map<string, ServerGame>();
 

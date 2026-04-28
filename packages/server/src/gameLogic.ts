@@ -1,5 +1,5 @@
 import type { ServerGame } from './types';
-import type { GameState, PlayerAnswers, CategoryResult } from '@stadt-land-fluss/shared';
+import type { GameState, PlayerAnswers, CategoryResult } from '@stadt-land-friends/shared';
 import {
   LETTER_POOL,
   ACCELERATED_TIMER_SECS,
@@ -9,7 +9,7 @@ import {
   answersMatch,
   isAnswerEmpty,
   isAnswerValid,
-} from '@stadt-land-fluss/shared';
+} from '@stadt-land-friends/shared';
 
 export function pickLetter(game: ServerGame): string {
   const available = LETTER_POOL.split('').filter(l => !game.usedLetters.includes(l));

@@ -1,7 +1,7 @@
 # ToDos & Bugs
 
 - [x] Rename to stadt-land-friends
-- [ ] Remove fluss from default categories
+- [x] Remove fluss from default categories
 
 ## Bugs
 
@@ -10,7 +10,7 @@
 - [x] Closing the phone screen disconnects from the server (no reconnect on wake)
 - [x] After voting through all categories, the admin sees no button to proceed to the next round. But the other players see the scoreboard as expected..
 - [x] When leaving the game (return to homescreen) before the voting starts, the player is sent back to the game (voting screen) once the timer for the inputs is done
-- [ ] Roundtime is set to 120 but the timer begins at 115 once the round starts
+- [x] Roundtime is set to 120 but the timer begins at 115 once the round starts
 - [ ] When joining a lobby and leaving before the game starts, the player still stays in the server/lobby for quite a while (~1 minute?). But when joining before the ~ 1 minute mark is up, a new player is created
 
 ---

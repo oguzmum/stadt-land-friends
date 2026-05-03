@@ -28,5 +28,5 @@ cp .env.example .env
 
 docker build -f Docker/Dockerfile -t stadt-land-friends .
 
-docker compose up -d --build
+docker compose up -d
 ```
